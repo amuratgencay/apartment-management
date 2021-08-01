@@ -1,0 +1,53 @@
+<h1>Online İşlemler</h1>
+<h4>{{kisi?.ad}} {{kisi?.soyad}}</h4>
+<div class="row pt-5 ">
+    <div class="col">
+        <ngb-tabset [justify]="'fill'" type="pills">
+            
+            <ngb-tab>
+                <ng-template ngbTabTitle>Tahakkuklar</ng-template>
+                <ng-template ngbTabContent>
+                    <app-tahakkuk-list></app-tahakkuk-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>Ödenmiş Aidatlar</ng-template>
+                <ng-template ngbTabContent>
+                    <app-odenmis-tahakkuklar></app-odenmis-tahakkuklar>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>Ödeme Kayıtları</ng-template>
+                <ng-template ngbTabContent>
+                    <app-tahsilat-list></app-tahsilat-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab>
+                <ng-template ngbTabTitle>Kimlik Bilgileri</ng-template>
+                <ng-template ngbTabContent>
+                    <app-kimlik-bilgileri></app-kimlik-bilgileri>
+                </ng-template>
+            </ngb-tab>
+            <!-- <ngb-tab>
+                <ng-template ngbTabTitle>Blok Borç Listesi</ng-template>
+                <ng-template ngbTabContent>
+                    <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam.
+                        Nulla
+                        facilisi. Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget
+                        tincidunt
+                        eu, congue et odio. Duis pharetra et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie
+                        lectus
+                        ultrices et. Sed diam urna, egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla
+                        tortor
+                        arcu. Vivamus faucibus nisl enim, nec tristique ipsum euismod facilisis. Morbi ut bibendum est,
+                        eu
+                        tincidunt odio. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
+                        ridiculus mus.
+                        Mauris aliquet odio ac lorem aliquet ultricies in eget neque. Phasellus nec tortor vel tellus
+                        pulvinar
+                        feugiat.</p>
+                </ng-template>
+            </ngb-tab> -->
+        </ngb-tabset>
+    </div>
+</div>

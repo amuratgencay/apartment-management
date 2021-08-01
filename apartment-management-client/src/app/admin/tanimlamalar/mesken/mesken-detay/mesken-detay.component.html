@@ -1,0 +1,35 @@
+<nb-card *ngIf="model">
+    <nb-card-header>
+        <div class="row">
+            <div class="col-6">
+                <span>{{model?.ad}}</span>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <detay-gorunumu [colDefs]="columns" [model]="model" [readOnly]="true"></detay-gorunumu>
+    </nb-card-body>
+</nb-card>
+<nb-card>
+    <nb-card-header></nb-card-header>
+    <nb-card-body>
+        <ngb-tabset>
+            <ngb-tab title="Kişiler">
+                <ng-template ngbTabContent>
+                    <app-mesken-kisi-list [meskenId]="id">
+                    </app-mesken-kisi-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Kurul Üyeleri">
+                <ng-template ngbTabContent>
+                    <app-kurul-uye-list [meskenId]="id"></app-kurul-uye-list>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Alt Meskenler">
+                <ng-template ngbTabContent>
+                    <app-mesken-list [ustId]="id"></app-mesken-list>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+    </nb-card-body>
+</nb-card>

@@ -1,0 +1,177 @@
+<div class="modal-header">
+    <h4 class="modal-title">Tahakkuk Ödeme</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+
+    <div class="row">
+
+
+        <div class="col-6">
+            <div class="row">
+                <div class="col">
+                    <div class="btn-group btn-group-toggle" ngbRadioGroup name="odemeYontemi"
+                        [(ngModel)]="tahsilatOlusturDto.odemeYontemi">
+                        <label ngbButtonLabel class="btn-secondary">
+                            <input ngbButton type="radio" [value]="0"> Havale / EFT
+                        </label>
+                        <label ngbButtonLabel class="btn-secondary">
+                            <input ngbButton type="radio" [value]="1" disabled> Kredi Kartı
+                        </label>
+                        <label ngbButtonLabel class="btn-secondary">
+                            <input ngbButton type="radio" [value]="2" disabled> Kasa
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="cuzdan && cuzdan.aktifMi">
+                <div class="col">
+                    <div class="alert alert-success">
+                        Kişinin cüzdanında {{cuzdan.tutar|currency:'TRY'}} var. Otomatik kullanılacak. Ödeme sonrası
+                        artan miktar tekrar cüzdana atılır
+                    </div>
+                </div>
+            </div>
+            <form #form="ngForm" novalidate>
+                <div class="form-group">
+                    <label for="odemeTarihi">Ödeme Tarihi</label>
+                    <div class="input-group">
+                        <input type="text" ngbDatepicker #d="ngbDatepicker" placeholder="yyyy-aa-gg"
+                            class="form-control" id="odemeTarihi" name="odemeTarihi" required
+                            [disabled]="inputsDisabled" [(ngModel)]="tahsilatOlusturDto.odemeTarihi">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary fa fa-calendar" (click)="d.toggle()"
+                                type="button"></button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="tutar">Tutar</label>
+                    <input type="number" class="form-control" id="tutar" name="tutar" required
+                        [disabled]="inputsDisabled" [(ngModel)]="tahsilatOlusturDto.tutar">
+                </div>
+
+                <!-- <div class="dx-field">
+                <div class="dx-field-label">Ödeme Tarihi</div>
+                <div class="dx-field-value">
+                    <dx-date-box name="odemeTarihi" required [(ngModel)]="hesapHareketi.odemeTarihi" type="date">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="Ödeme Tarihi zorunludur.">
+                            </dxi-validation-rule>
+                        </dx-validator>
+                    </dx-date-box>
+                </div>
+            </div> -->
+                <!-- <div class="dx-field">
+                <div class="dx-field-label">Tutar</div>
+                <div class="dx-field-value">
+                    <dx-number-box name="tutar" required [(ngModel)]="hesapHareketi.tutar">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="Ödeme yapılacak tutar zorunludur.">
+                            </dxi-validation-rule>
+                        </dx-validator>
+                    </dx-number-box>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">Hesaplar</div>
+                <div class="dx-field-value">
+                    <dx-select-box name="hesaptanimId" required [(ngModel)]="hesapHareketi.hesapId"
+                        [dataSource]="hesapTanimlari" displayExpr="ad" valueExpr="id">
+                        <dx-validator>
+                            <dxi-validation-rule type="required" message="Ödeme yapılan hesap seçimi zorunludur.">
+                            </dxi-validation-rule>
+                        </dx-validator>
+                    </dx-select-box>
+                </div>
+            </div> -->
+                <button class="btn btn-success" type="button" [disabled]="form.invalid"
+                    (click)="hesapla()">Hesapla</button>
+                <!-- <dx-button [disabled]="form.invalid" stylingMode="contained" text="Kaydet" type="success" [width]="120"
+                (onClick)="ode($event)">
+            </dx-button> -->
+            </form>
+        </div>
+        <div class="col-6">
+            <div class="card">
+
+
+                <h5 class="card-header">Ödeme Bilgileri</h5>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Vade Tarihi
+                                </th>
+                                <th>
+                                    Ödeme Tipi
+                                </th>
+                                <th class="text-right">
+                                    Ödenecek Tutar
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let tahsilatKalem of tahsilatSonucu?.tahsilat?.tahsilatKalems">
+                                <tr *ngIf="!tahsilatKalem.id">
+                                    <td>
+                                        {{tahsilatKalem?.tahakkuk?.vadeTarihi|date}}
+                                    </td>
+                                    <td>
+                                        {{tahsilatKalem?.odemeTipi?.ad}}
+                                    </td>
+                                    <td class="text-right">
+                                        {{(tahsilatKalem?.tutar)| currency : 'TRY'}}
+                                    </td>
+                                </tr>
+                            </ng-container>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2"><b> Kapatılacak Tahakkuk Toplamı:</b></td>
+                                <td class="text-right"><b>
+                                        {{ tahsilatSonucu?.tahsilat?.tutar - tahsilatSonucu?.cuzdan?.tutar|currency: 'TRY'}}</b>
+                                </td>
+                            </tr>
+                            <tr class="alert alert-warning">
+                                <td colspan="2"><b> Yatırılacak Tutar:</b></td>
+                                <td class="text-right"><b>
+                                        {{ tahsilatSonucu?.tahsilat?.tutar|currency: 'TRY'}}</b>
+                                </td>
+                            </tr>
+
+                            <tr *ngIf="tahsilatSonucu?.cuzdan" class="alert alert-success">
+                                <td colspan="2"><b> Cüzdana Aktarılacak Tutar:</b></td>
+                                <td class="text-right"><b>
+                                        {{ tahsilatSonucu?.cuzdan?.tutar|currency: 'TRY'}}</b>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="form-group">
+                        <label for="odemeTarihi">Hesap</label>
+                        <select class="form-control" [(ngModel)]="tahsilatOlusturDto.hesapId" name="hesapId"
+                            [disabled]="inputsDisabled">
+                            <option *ngFor="let hesap of hesapTanimlari" [value]="hesap.id">{{hesap.ad}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="alert alert-success" role="alert" *ngIf="tahsilatSonucu?.cuzdan">
+                <p>Cüzdana aktarılacak tutar: {{(tahsilatSonucu.cuzdan?.tutar)| currency : 'TRY'}}</p>
+            </div> -->
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Kapat</button>
+
+    <button type="button" [disabled]="!tahsilatOlusturDto.hesapId" class="btn btn-success"
+        (click)="ode()">Kaydet</button>
+</div>

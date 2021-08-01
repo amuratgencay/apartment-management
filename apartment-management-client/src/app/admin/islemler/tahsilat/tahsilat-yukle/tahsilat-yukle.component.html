@@ -1,0 +1,36 @@
+<nb-card>
+    <nb-card-header>
+        <div class="row">
+            <div class="col-6">
+                <span>Toplu Ödeme Aktarımı</span>
+            </div>
+        </div>
+    </nb-card-header>
+    <nb-card-body>
+        <div class="row my-2">
+            <div class="col">
+                <div class="uploadfilecontainer" (click)="fileInput.click()" dragDrop
+                    (onFileDropped)="dosyaYuklendi($event)">
+                    <input hidden type="file" #fileInput (change)="dosyaYuklendi($event.target.files)">
+                    Dosyayı buraya sürükleyin veya tıklayın.
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-2">
+            <div class="col-6">
+                <div *ngIf="file">
+                    <ul class="list-group">
+                        <li class="list-group-item">{{file.name}}
+                            <button type="button" [disabled]="yukleniyor" class="btn btn-danger btn-sm"
+                                (click)="dosyaSil()"><i class="fa fa-trash" aria-hidden="true"></i></button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nb-card-body>
+    <nb-card-footer>
+        <button type="button" [disabled]="yukleniyor" class="btn btn-success btn-sm" (click)="kaydet()">Kaydet</button>
+    </nb-card-footer>
+</nb-card>

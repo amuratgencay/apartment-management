@@ -1,0 +1,15 @@
+<div class="text-center">
+    <h5 class="display-4">Duyurular</h5>
+</div>
+<div class="row">
+    <div class="col-sm-6 mb-2" *ngFor="let duyuru of duyurular">
+       
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{duyuru?.baslik}}</h5>
+                <p class="card-text" [innerHTML]="duyuru?.icerik|safe:'html'"></p>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            </div>
+        </div>
+    </div>
+</div>
